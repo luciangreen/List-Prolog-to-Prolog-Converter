@@ -52,7 +52,8 @@ b(["b"]).
 c(["c"]).
 ```
 
-```test(15,_,A,_),lp2p1(A,B),write(B).
+```
+test(15,_,A,_),lp2p1(A,B),write(B).
 grammar1(U,T):-compound(U,"",[],T).
 compound213("","",T,T).
 compound213(U,U,T,T).
