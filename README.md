@@ -72,6 +72,7 @@ word21(T,U)->A,commaorrightbracketnext,{letters(A),stringconcat(T,A,V)},word212(
 word21(T,U)->A,{letters(A),stringconcat(T,A,V)},word21("",Wordstring),{stringconcat(V,Wordstring,U)}.
 commaorrightbracketnext->lookahead(",").
 commaorrightbracketnext->lookahead("]").
+lookahead(A,A,B):-stringconcat(B,D,A).
 ```
 
 # Authors
