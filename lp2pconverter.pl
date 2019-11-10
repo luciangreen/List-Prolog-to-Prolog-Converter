@@ -13,9 +13,9 @@ memberlp2p10(Functions2,Algorithm1,Algorithm2) :-
 
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2,Symbol,Body],
-        interpretstatement2a(Function,Algorithm1,Algorithm3a),
+        interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
         	string_concat(Algorithm3a,"(",Algorithm3d),
-        interpretstatement2(Arguments2,Algorithm3d,Algorithm3e),
+        interpretstatementlp2p2(Arguments2,Algorithm3d,Algorithm3e),
         	string_concat(Algorithm3e,")",Algorithm3f),
                 	concat_list([Algorithm3f,Symbol],Algorithm3),
 	interpretbodylp2p(Body,Algorithm3,Algorithm2a),
@@ -26,7 +26,7 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 		
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Symbol,Body],
-        interpretstatement2a(Function,Algorithm1,Algorithm3b),
+        interpretstatementlp2p2a(Function,Algorithm1,Algorithm3b),
                 	concat_list([Algorithm3b,Symbol],Algorithm3a),
 		%%string_concat(Algorithm3a,"(",Algorithm3d),
         interpretbodylp2p(Body,Algorithm3a,Algorithm2a),
@@ -40,9 +40,9 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 	
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2],
-                interpretstatement2a(Function,Algorithm1,Algorithm3a),
+                interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
                 		string_concat(Algorithm3a,"(",Algorithm3d),
-        interpretstatement2b(Arguments2,Algorithm3d,Algorithm2a),
+        interpretstatementlp2p2b(Arguments2,Algorithm3d,Algorithm2a),
         write_full_stop_if_last_item([],Algorithm2a,Algorithm2),!.
 /**
         ;
@@ -52,7 +52,7 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function],
-        interpretstatement2b(Function,Algorithm1,Algorithm2a),
+        interpretstatementlp2p2b(Function,Algorithm1,Algorithm2a),
         write_full_stop_if_last_item([],Algorithm2a,Algorithm2),!.
 /**
 	,
@@ -67,7 +67,7 @@ interpretbodylp2p([],Algorithm1,Algorithm1) :- !.
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 	Body=[Statement|Statements],
 	Statement=[v,_],
-	interpretstatement2a(Statement,Algorithm1,Algorithm3),		write_comma_if_not_empty_list(Statements,Algorithm3,Algorithm4),
+	interpretstatementlp2p2a(Statement,Algorithm1,Algorithm3),		write_comma_if_not_empty_list(Statements,Algorithm3,Algorithm4),
 interpretbodylp2p(Statements,Algorithm4,Algorithm2),
 %%write_full_stop_if_last_item(Statements,Algorithm5,Algorithm2),
 !.
@@ -148,14 +148,14 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 	Body=[Statement|Statements],
 	not(predicate_or_rule_name(Statement)),
-	interpretstatement1(Statement,Algorithm1,Algorithm3),		write_comma_if_not_empty_list(Statements,Algorithm3,Algorithm4),
+	interpretstatementlp2p1(Statement,Algorithm1,Algorithm3),		write_comma_if_not_empty_list(Statements,Algorithm3,Algorithm4),
 interpretbodylp2p(Statements,Algorithm4,Algorithm2),
 %%write_full_stop_if_last_item(Statements,Algorithm5,Algorithm2),
 !.
 
 interpretbodylp2p(Arguments1,Algorithm1,Algorithm2) :-
 	Arguments1=[Arguments2|Arguments3],
-	interpretstatement2([Arguments2],Algorithm1,Algorithm3a),
+	interpretstatementlp2p2([Arguments2],Algorithm1,Algorithm3a),
 	write_comma_if_not_empty_list(Arguments3,Algorithm3a,Algorithm4),
 	interpretbodylp2p(Arguments3,Algorithm4,Algorithm2),!.
 
@@ -187,44 +187,44 @@ write_close_bracket_and_comma_if_not_empty_list(Statements2,Algorithm6,Algorithm
 	(not(Statements2=[])->string_concat(Algorithm6,"),",Algorithm7);
 	Algorithm6=Algorithm7),!.
 	
-interpretstatement1(Statement,Algorithm1,Algorithm2) :-
+interpretstatementlp2p1(Statement,Algorithm1,Algorithm2) :-
 	Statement=[[N_or_v,Name]],(N_or_v=n;N_or_v=v),
-	interpretstatement2a([N_or_v,Name],Algorithm1,Algorithm2),!.
+	interpretstatementlp2p2a([N_or_v,Name],Algorithm1,Algorithm2),!.
         	
-interpretstatement1(Statement,Algorithm1,Algorithm2) :-
+interpretstatementlp2p1(Statement,Algorithm1,Algorithm2) :-
 	Statement=[[N_or_v,Name],Arguments],(N_or_v=n;N_or_v=v),
-	interpretstatement2a([N_or_v,Name],Algorithm1,Algorithm3a),
+	interpretstatementlp2p2a([N_or_v,Name],Algorithm1,Algorithm3a),
         	string_concat(Algorithm3a,"(",Algorithm3),
-	interpretstatement2(Arguments,Algorithm3,Algorithm4),
+	interpretstatementlp2p2(Arguments,Algorithm3,Algorithm4),
         	string_concat(Algorithm4,")",Algorithm2),!.
 
-interpretstatement2([],Algorithm1,Algorithm1) :- !.
-interpretstatement2(Arguments1,Algorithm1,Algorithm2) :-
+interpretstatementlp2p2([],Algorithm1,Algorithm1) :- !.
+interpretstatementlp2p2(Arguments1,Algorithm1,Algorithm2) :-
 	Arguments1=[Arguments1a|Arguments2],
-	interpretstatement2a(Arguments1a,Algorithm1,Algorithm3),
+	interpretstatementlp2p2a(Arguments1a,Algorithm1,Algorithm3),
 		write_comma_if_not_empty_list(Arguments2,Algorithm3,Algorithm4),
-	interpretstatement2(Arguments2,Algorithm4,Algorithm2),!.
+	interpretstatementlp2p2(Arguments2,Algorithm4,Algorithm2),!.
 	   %%write_close_bracket_and_full_stop_if_last_item(Arguments2,Algorithm5,Algorithm2).
 
-interpretstatement2b([],Algorithm1,Algorithm1) :- !.
-interpretstatement2b(Arguments1,Algorithm1,Algorithm2) :-
+interpretstatementlp2p2b([],Algorithm1,Algorithm1) :- !.
+interpretstatementlp2p2b(Arguments1,Algorithm1,Algorithm2) :-
 	Arguments1=[Arguments1a|Arguments2],
-	interpretstatement2a(Arguments1a,Algorithm1,Algorithm3),
+	interpretstatementlp2p2a(Arguments1a,Algorithm1,Algorithm3),
 		write_comma_if_not_empty_list(Arguments2,Algorithm3,Algorithm4),
-	interpretstatement2b(Arguments2,Algorithm4,Algorithm5),
+	interpretstatementlp2p2b(Arguments2,Algorithm4,Algorithm5),
 	   write_close_bracket_if_last_item(Arguments2,Algorithm5,Algorithm2),!.
 
-interpretstatement2a(Arguments1,Algorithm1,Algorithm2) :-
-	interpretstatement3(Arguments1,Name),
+interpretstatementlp2p2a(Arguments1,Algorithm1,Algorithm2) :-
+	interpretstatementlp2p3(Arguments1,Name),
 	string_concat(Algorithm1,Name,Algorithm2),!.
 
-interpretstatement3([n,Name],Name) :- !.
-interpretstatement3([v,Name1],Name2) :- string_concat(A,B,Name1),atom_length(A,1),upcase_atom(A,A1),string_concat(A1,B,Name2),!.
-%%interpretstatement3([],"[]") :- !.
-%%interpretstatement3("","\"\"") :- !.
-interpretstatement3([Term1],Term2) :- interpretstatement3(Term1,Term3),	
+interpretstatementlp2p3([n,Name],Name) :- !.
+interpretstatementlp2p3([v,Name1],Name2) :- string_concat(A,B,Name1),atom_length(A,1),upcase_atom(A,A1),string_concat(A1,B,Name2),!.
+%%interpretstatementlp2p3([],"[]") :- !.
+%%interpretstatementlp2p3("","\"\"") :- !.
+interpretstatementlp2p3([Term1],Term2) :- interpretstatementlp2p3(Term1,Term3),	
 	string_concat("[",Term3,Term4),	string_concat(Term4,"]",Term2),!.
-interpretstatement3(Value1,Value2):-term_to_atom(Value1,Value2),!.
+interpretstatementlp2p3(Value1,Value2):-term_to_atom(Value1,Value2),!.
 
 
 
