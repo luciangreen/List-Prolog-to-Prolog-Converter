@@ -1,46 +1,5 @@
 %% lp2p
 
-%% lp2p1(A1,"[",A3).
-
-%% test(1,_,A,_),lp2p1(A,B),portray_clause(B).
-%% B = "function(A,B,C):-+(A,B,C).\n" .
-
-%% test(2,_,A,_),lp2p1(A,B),portray_clause(B).
-%% B = "function(A,B,C):-+(A,B,D),+(D,1,C).\n" .
-
-%% test(3,_,A,_),lp2p1(A,B),portray_clause(B).
-%% B = "function(A,B,C):-function2(D,F),+(A,B,E),+(E,F,G),+(G,D,C).\nfunction2(A,F):-is(A,2),is(F,1).\n".
-/**
-test(4,_,A,_),lp2p1(A,B),write(B)
-append1(A):-b(B),c(C),append(B,C,A).
-b(["b"]).
-c(["c"]).
-
-test(15,_,A,_),lp2p1(A,B),write(B).
-grammar1(U,T):-compound(U,"",[],T).
-compound213("","",T,T).
-compound213(U,U,T,T).
-compound(T,U)->"[",compound21(T,V),"]",compound213(V,U).
-compound212("","",T,T).
-compound212(U,U,T,T).
-compound21(T,U)->item(I),{wrap(I,Itemname1),append(T,Itemname1,V)},compound212(V,U).
-compound21(T,U)->item(I),",",compound21([],Compound1name),{wrap(I,Itemname1),append(T,Itemname1,V),append(V,Compound1name,U)}.
-item(T)->number21("",U),{stringtonumber(U,T)}.
-item(T)->word21("",T).
-item(T)->compound([],T).
-number212("","",T,T).
-number212(U,U,T,T).
-number21(T,U)->A,commaorrightbracketnext,{stringtonumber(A,A1),number(A1),stringconcat(T,A,V)},number212(V,U).
-number21(T,U)->A,{stringtonumber(A,A1),number(A1),stringconcat(T,A,V)},number21("",Numberstring),{stringconcat(V,Numberstring,U)}.
-word212("","",T,T).
-word212(U,U,T,T).
-word21(T,U)->A,commaorrightbracketnext,{letters(A),stringconcat(T,A,V)},word212(V,U).
-word21(T,U)->A,{letters(A),stringconcat(T,A,V)},word21("",Wordstring),{stringconcat(V,Wordstring,U)}.
-commaorrightbracketnext->lookahead(",").
-commaorrightbracketnext->lookahead("]").
-
-**/
-
 lp2p1(Algorithm1,Algorithm2) :-
 	%% note: without type, mode statements
 	memberlp2p10(Algorithm1,"",Algorithm2).
