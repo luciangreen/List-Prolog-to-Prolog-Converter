@@ -23,7 +23,7 @@ In the SWI-Prolog environment, enter:
 Where:
 Number - Test number of algorithm to convert (taken from <a href="https://github.com/luciangreen/listprologinterpreter/blob/master/lpiverify4.pl">"lpiverify4.pl"</a>).
 Algorithm1 - is the List Prolog algorithm to convert.
-Algorithm2 - is the Prolog algorithm to convert to.
+Algorithm2 - is the Prolog algorithm produced.
 
 * For example:
 ```
