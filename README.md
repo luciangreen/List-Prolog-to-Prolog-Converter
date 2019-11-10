@@ -2,20 +2,17 @@
 
 Converts List Prolog code to Prolog code.
 
-List Prolog Interpreter is an interpreter for a different version of Prolog that is in list format, making it easier to generate List Prolog programs. The interpreter is an algorithm that parses and runs List Prolog code. This converter helps List Prolog programs to be converted to Prolog.  The interpreter and converter are written in SWI-Prolog.
+List Prolog (LP) Interpreter (available <a href="https://github.com/luciangreen/listprologinterpreter">here</a>) (is an interpreter for a different version of Prolog that is in list format, making it easier to generate List Prolog programs. The LP interpreter is an algorithm that parses and runs List Prolog code. The converter helps List Prolog programs to be converted to Prolog.  The interpreter and converter are written in SWI-Prolog.
 
 # Installing
 
-* Download the repository to your machine.
-In the SWI-Prolog environment, enter:
-`['listprolog'].`    
+* Please download and install <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine.
 
 * Load List Prolog by downloading the <a href="https://github.com/luciangreen/listprologinterpreter">repository from GitHub</a>.
 
-* Please download and install <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine.
-
-* Load the List Prolog Interpreter by typing:
-`['listprolog'].`
+* Download this repository to your machine.
+In the SWI-Prolog environment, enter:
+`['listprolog'].`    
 
 * Load the List Prolog to Prolog Converter by typing:
 `['lp2pconverter'].`
