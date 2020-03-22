@@ -4,6 +4,11 @@ Converts List Prolog code to Prolog code.
 
 List Prolog (LP) Interpreter (available <a href="https://github.com/luciangreen/listprologinterpreter">here</a>) is an interpreter for a different version of Prolog that is in list format, making it easier to generate List Prolog programs. The LP interpreter is an algorithm that parses and runs List Prolog code. The converter helps convert List Prolog programs to Prolog programs.  The interpreter and converter are written in SWI-Prolog.
 
+
+# Installation from List Prolog Package Manager (LPPM)
+
+* Optionally, you can install from LPPM by installing <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine, downloading the <a href="https://github.com/luciangreen/List-Prolog-Package-Manager">LPPM Repository</a>, loading LPPM with `['lppm'].` then installing the package by running `lppm_install("luciangreen","List-Prolog-to-Prolog-Converter").`.
+
 # Installing
 
 * Please download and install <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine.
