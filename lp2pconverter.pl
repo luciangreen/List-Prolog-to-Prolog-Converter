@@ -63,6 +63,7 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 	).
 **/
 
+
 interpretbodylp2p([],Algorithm1,Algorithm1) :- !.
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 	Body=[Statement|Statements],
@@ -78,8 +79,9 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 	interpretbodylp2p([Statements1],Algorithm3,Algorithm4),
 	write_comma_if_not_empty_list(Statements1a,Algorithm4,Algorithm5),
 	interpretbodylp2p(Statements1a,Algorithm5,Algorithm6),
-		string_concat(Algorithm5,")",Algorithm6),
-			write_comma_and_newline_if_not_empty_list(Statements2,Algorithm6,Algorithm7),
+		string_concat(Algorithm6,")",Algorithm6a),
+			%%trace,
+			write_comma_and_newline_if_not_empty_list(Statements2,Algorithm6a,Algorithm7),
 	interpretbodylp2p(Statements2,Algorithm7,Algorithm2),
 				%%write_full_stop_if_last_item(Statements2,Algorithm8,Algorithm2),
 	!.
@@ -164,7 +166,7 @@ write_comma_if_not_empty_list(Statements2,Algorithm6,Algorithm7) :-
 	Algorithm6=Algorithm7),!.
 
 write_comma_and_newline_if_not_empty_list(Statements2,Algorithm6,Algorithm7) :-
-	(Statements2=[]->string_concat(Algorithm6,",\n",Algorithm7);
+	(not(Statements2=[])->string_concat(Algorithm6,",\n",Algorithm7);
 	Algorithm6=Algorithm7),!.
 
 write_full_stop_if_last_item(Statements2,Algorithm8,Algorithm2) :-
@@ -187,10 +189,17 @@ write_close_bracket_and_comma_if_not_empty_list(Statements2,Algorithm6,Algorithm
 	(not(Statements2=[])->string_concat(Algorithm6,"),",Algorithm7);
 	Algorithm6=Algorithm7),!.
 	
+/**
+interpretstatementlp2p1(Statement,Algorithm1,Algorithm2) :-
+	Statement=[[[n,Command]]],%%trace,%%writeln(Command),notrace,
+	(Command=true;(Command=fail;Command=cut)),
+	string_concat(Algorithm1,Command,Algorithm2),!.
+**/
+
 interpretstatementlp2p1(Statement,Algorithm1,Algorithm2) :-
 	Statement=[[N_or_v,Name]],(N_or_v=n;N_or_v=v),
 	interpretstatementlp2p2a([N_or_v,Name],Algorithm1,Algorithm2),!.
-        	
+
 interpretstatementlp2p1(Statement,Algorithm1,Algorithm2) :-
 	Statement=[[N_or_v,Name],Arguments],(N_or_v=n;N_or_v=v),
 	interpretstatementlp2p2a([N_or_v,Name],Algorithm1,Algorithm3a),

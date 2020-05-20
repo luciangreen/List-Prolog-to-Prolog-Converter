@@ -17,7 +17,7 @@ List Prolog (LP) Interpreter (available <a href="https://github.com/luciangreen/
 
 * Download this repository to your machine.
 In the SWI-Prolog environment, enter:
-`['listprolog'].`    
+`['../listprologinterpreter/listprolog'].`    
 
 * Load the List Prolog to Prolog Converter by typing:
 `['lp2pconverter'].`
