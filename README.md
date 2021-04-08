@@ -7,29 +7,30 @@ List Prolog (LP) Interpreter (available <a href="https://github.com/luciangreen/
 
 # Prerequisites
 
-Install List Prolog Interpreter Repository (https://github.com/luciangreen/listprologinterpreter).
+* Please download and install SWI-Prolog for your machine at `https://www.swi-prolog.org/build/`.
 
-Install Text to Breasonings Repository (https://github.com/luciangreen/Text-to-Breasonings).
+# 1. Install manually
 
+Download <a href="http://github.com/luciangreen/List-Prolog-to-Prolog-Converter/">this repository</a>, the <a href="https://github.com/luciangreen/listprologinterpreter">List Prolog Interpreter Repository</a> and the <a href="https://github.com/luciangreen/Text-to-Breasonings">Text to Breasonings Repository</a>.
 
-# Installation from List Prolog Package Manager (LPPM)
+# 2. Or Install from List Prolog Package Manager (LPPM)
 
-* Optionally, you can install from LPPM by installing <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine, downloading the <a href="https://github.com/luciangreen/List-Prolog-Package-Manager">LPPM Repository</a>,
+* Download the <a href="https://github.com/luciangreen/List-Prolog-Package-Manager">LPPM Repository</a>:
+
 ```
 git clone https://github.com/luciangreen/List-Prolog-Package-Manager.git
 cd List-Prolog-Package-Manager
 swipl
+['lppm'].
+lppm_install("luciangreen","List-Prolog-to-Prolog-Converter")
+halt
 ```
-loading LPPM with `['lppm'].` then installing the package by running `lppm_install("luciangreen","List-Prolog-to-Prolog-Converter").`.
 
-# Installing
+# Running
 
-* Please download and install <a href="https://www.swi-prolog.org/build/">SWI-Prolog</a> for your machine.
-
-* Load List Prolog by downloading the <a href="https://github.com/luciangreen/listprologinterpreter">repository from GitHub</a>.
-
-* Download this repository to your machine.
-In the SWI-Prolog environment, enter:
+* In Shell:
+`cd List-Prolog-to-Prolog-Converter`
+`swipl`
 `['../listprologinterpreter/listprolog'].`    
 
 * Load the List Prolog to Prolog Converter by typing:
