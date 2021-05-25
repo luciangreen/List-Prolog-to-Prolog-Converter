@@ -73,13 +73,15 @@ test(15,_,A,_),lp2p1(A,B),write(B).
 grammar1(U,T):-compound(U,"",[],T).
 compound213("","",T,T).
 compound213(U,U,T,T).
+compound(T,U)->"[","]",compound213(T,U).
 compound(T,U)->"[",compound21(T,V),"]",compound213(V,U).
 compound212("","",T,T).
 compound212(U,U,T,T).
-compound21(T,U)->item(I),{wrap(I,Itemname1),append(T,Itemname1,V)},compound212(V,U).
+compound21(T,U)->item(I),lookahead("]"),{wrap(I,Itemname1),append(T,Itemname1,V)},compound212(V,U).
 compound21(T,U)->item(I),",",compound21([],Compound1name),{wrap(I,Itemname1),append(T,Itemname1,V),append(V,Compound1name,U)}.
+item(T)->"""",word21("",T),"""".
 item(T)->number21("",U),{stringtonumber(U,T)}.
-item(T)->word21("",T).
+item(T)->word21_atom("",T1),{atom_string(T,T1)}.
 item(T)->compound([],T).
 number212("","",T,T).
 number212(U,U,T,T).
@@ -87,12 +89,16 @@ number21(T,U)->A,commaorrightbracketnext,{stringtonumber(A,A1),number(A1),string
 number21(T,U)->A,{stringtonumber(A,A1),number(A1),stringconcat(T,A,V)},number21("",Numberstring),{stringconcat(V,Numberstring,U)}.
 word212("","",T,T).
 word212(U,U,T,T).
-word21(T,U)->A,commaorrightbracketnext,{letters(A),stringconcat(T,A,V)},word212(V,U).
-word21(T,U)->A,{letters(A),stringconcat(T,A,V)},word21("",Wordstring),{stringconcat(V,Wordstring,U)}.
+word21(T,U)->A,quote_next,{not((=(A,""""))),stringconcat(T,A,V)},word212(V,U).
+word21(T,U)->A,{not((=(A,""""))),stringconcat(T,A,V)},word21("",Wordstring),{stringconcat(V,Wordstring,U)}.
+word212_atom("","",T,T).
+word212_atom(U,U,T,T).
+word21_atom(T,U)->A,commaorrightbracketnext,{not((=(A,""""))),not((=(A,"["))),not((=(A,"]"))),stringconcat(T,A,V)},word212_atom(V,U).
+word21_atom(T,U)->A,{not((=(A,""""))),not((=(A,"["))),not((=(A,"]"))),stringconcat(T,A,V)},word21_atom("",Wordstring),{stringconcat(V,Wordstring,U)}.
 commaorrightbracketnext->lookahead(",").
 commaorrightbracketnext->lookahead("]").
-lookahead(A,A,B):-stringconcat(B,D,A).
-```
+quote_next->lookahead("""").
+lookahead(A,A,B):-stringconcat(B,D,A).```
 
 # Authors
 
