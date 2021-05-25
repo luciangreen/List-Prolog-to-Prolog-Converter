@@ -98,7 +98,8 @@ word21_atom(T,U)->A,{not((=(A,""""))),not((=(A,"["))),not((=(A,"]"))),stringconc
 commaorrightbracketnext->lookahead(",").
 commaorrightbracketnext->lookahead("]").
 quote_next->lookahead("""").
-lookahead(A,A,B):-stringconcat(B,D,A).```
+lookahead(A,A,B):-stringconcat(B,D,A).
+```
 
 # Authors
 
