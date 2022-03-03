@@ -78,8 +78,8 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 	interpretbodylp2p([Statements1],Algorithm3,Algorithm4),
 	write_comma_if_not_empty_list(Statements1a,Algorithm4,Algorithm5),
 	interpretbodylp2p(Statements1a,Algorithm5,Algorithm6),
-		string_concat(Algorithm5,")",Algorithm6),
-			write_comma_and_newline_if_not_empty_list(Statements2,Algorithm6,Algorithm7),
+		string_concat(Algorithm6,")",Algorithm6a),
+			write_comma_and_newline_if_not_empty_list(Statements2,Algorithm6a,Algorithm7),
 	interpretbodylp2p(Statements2,Algorithm7,Algorithm2),
 				%%write_full_stop_if_last_item(Statements2,Algorithm8,Algorithm2),
 	!.
@@ -135,8 +135,10 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
         !.
 
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
+%trace,
         Body=[[[n,code]|Statements1]|Statements3],
         	string_concat(Algorithm1,"{",Algorithm3),
+        	%trace,
         interpretbodylp2p(Statements1,Algorithm3,Algorithm4),
                 	string_concat(Algorithm4,"}",Algorithm7),
 
