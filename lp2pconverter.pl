@@ -237,6 +237,7 @@ interpretstatementlp2p2a(Arguments1,Algorithm1,Algorithm2) :-
 	interpretstatementlp2p3(Arguments1,Name),
 	string_concat(Algorithm1,Name,Algorithm2),!.
 
+/*
 interpretstatementlp2p3([],"[]") :- 
 !.
 
@@ -267,6 +268,37 @@ interpretstatementlp2p4([Term1|Term1a],Term2) :- interpretstatementlp2p3(Term1,T
 %	string_concat("[",Term3,Term4),	string_concat(Term4,"]",Term2),!.
 
 interpretstatementlp2p3(Value1,Value2):-term_to_atom(Value1,Value2),!.
+*/
 
 
+%% retry nested term
+
+interpretstatementlp2p3(A,B):-
+ interpretstatementlp2p5(A,"",B).
+ 
+interpretstatementlp2p5([],_,"[]") :- 
+!.
+
+interpretstatementlp2p5([v,Name1],_,Name2) :- string_concat(A,B,Name1),atom_length(A,1),upcase_atom(A,A1),string_concat(A1,B,Name2),!.
+
+interpretstatementlp2p5(A,B1,B):-
+ interpretstatementlp2p5(A,B1,B,true).
+
+interpretstatementlp2p5(A,B1,B,Top):-
+ A=[],
+ (Top=true->
+ foldr(string_concat,[B1,"[]"],B);
+ B="[]"),!.
+interpretstatementlp2p5(A,B1,B,Top):-
+ A=[A1|A2],
+ (A1=[v,N]->(string_concat(A4,B4,N),atom_length(A4,1),upcase_atom(A4,A11),string_concat(A11,B4,A3));
+ interpretstatementlp2p5(A1,"",A3,true)),
+ foldr(string_concat,[B1,A3],B2),
+ (A2=[]->B6=B2;
+ (foldr(string_concat,[B2,","],B3),
+ interpretstatementlp2p5(A2,"",B5,false),
+ foldr(string_concat,[B3,B5],B6))),
+ (Top=true->
+ foldr(string_concat,["[",B6,"]"],B);
+ B6=B),!.
 
