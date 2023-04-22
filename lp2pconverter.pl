@@ -1,5 +1,7 @@
 %% lp2p
 
+:-include('../listprologinterpreter/listprolog.pl').
+
 lp2p1(Algorithm1,Algorithm2) :-
 	%% note: without type, mode statements
 	memberlp2p10(Algorithm1,"",Algorithm2).
@@ -234,22 +236,23 @@ interpretstatementlp2p2b(Arguments1,Algorithm1,Algorithm2) :-
 	   write_close_bracket_if_last_item(Arguments2,Algorithm5,Algorithm2),!.
 
 interpretstatementlp2p2a(Arguments1,Algorithm1,Algorithm2) :-
-	interpretstatementlp2p3(Arguments1,Name),
+	interpretstatementlp2p5(Arguments1,Name),
 	string_concat(Algorithm1,Name,Algorithm2),!.
 
 /*
 interpretstatementlp2p3([],"[]") :- 
 !.
-
-interpretstatementlp2p3([n,cut],"!") :- !.
-interpretstatementlp2p3([n,Name],Name) :- !.
+*/
+interpretstatementlp2p5([n,cut],"!") :- !.
+interpretstatementlp2p5([n,Name],Name) :- !.
+/*
 interpretstatementlp2p3([v,Name1],Name2) :- string_concat(A,B,Name1),atom_length(A,1),upcase_atom(A,A1),string_concat(A1,B,Name2),!.
 %%interpretstatementlp2p3([],"[]") :- !.
 %%interpretstatementlp2p3("","\"\"") :- !.
 interpretstatementlp2p3(Term1,Term2) :-
 %not(is_list(Term1)),
-not(contains_var([v,_],Term1)),
-not(contains_var([n,_],Term1)),
+not(contains_var1([v,_],Term1)),
+not(contains_var1([n,_],Term1)),
 term_to_atom(Term1,Term1a),
  foldr(string_concat,[Term1a],Term2),!.
 
@@ -273,7 +276,7 @@ interpretstatementlp2p3(Value1,Value2):-term_to_atom(Value1,Value2),!.
 
 %% retry nested term
 
-interpretstatementlp2p3(A,B):-
+interpretstatementlp2p5(A,B):-
  interpretstatementlp2p5(A,"",B).
  
 interpretstatementlp2p5([],_,"[]") :- 
@@ -289,6 +292,11 @@ interpretstatementlp2p5(A,B1,B,Top):-
  (Top=true->
  foldr(string_concat,[B1,"[]"],B);
  B="[]"),!.
+
+interpretstatementlp2p5(Single_item,_,Single_item,_) :-
+ single_item_not_var(Single_item),!.
+
+
 interpretstatementlp2p5(A,B1,B,Top):-
  A=[A1|A2],
  (A1=[v,N]->(string_concat(A4,B4,N),atom_length(A4,1),upcase_atom(A4,A11),string_concat(A11,B4,A3));
