@@ -293,8 +293,9 @@ interpretstatementlp2p5(A,B1,B,Top):-
  foldr(string_concat,[B1,"[]"],B);
  B="[]"),!.
 
-interpretstatementlp2p5(Single_item,_,Single_item,_) :-
- single_item_not_var(Single_item),!.
+interpretstatementlp2p5(Single_item1,_,Single_item,_) :-
+ single_item_not_var(Single_item1),
+ term_to_atom(Single_item1,Single_item),!.
 
 
 interpretstatementlp2p5(A,B1,B,Top):-
