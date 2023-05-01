@@ -239,6 +239,8 @@ interpretstatementlp2p2a(Arguments1,Algorithm1,Algorithm2) :-
 	interpretstatementlp2p5(Arguments1,Name),
 	string_concat(Algorithm1,Name,Algorithm2),!.
 
+interpretstatementlp2p3(A,B) :- 
+	interpretstatementlp2p5(A,B),!.
 /*
 interpretstatementlp2p3([],"[]") :- 
 !.
