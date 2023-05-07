@@ -11,6 +11,16 @@ memberlp2p10(Functions2,Algorithm1,Algorithm2) :-
 	memberlp2p10(Functions4,Algorithm3,Algorithm2).
 
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
+        Functions2=[Function],
+        interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
+        	%string_concat(Algorithm3a,"(",Algorithm3d),
+        %interpretstatementlp2p2(Arguments2,Algorithm3d,Algorithm3e),
+        	%string_concat(Algorithm3e,")",Algorithm3f),
+                	%concat_list([Algorithm3f,Symbol],Algorithm3),
+	%interpretbodylp2p(Body,Algorithm3,Algorithm2a),
+	      write_full_stop_if_last_item([],Algorithm3a,Algorithm2),
+!.
+memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2,Symbol,Body],
         interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
         	string_concat(Algorithm3a,"(",Algorithm3d),
@@ -37,6 +47,20 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 	).
 **/
 	
+memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
+        Functions2=[[n,comment],[Comment]],
+                %interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
+
+        	foldr(string_concat,[Algorithm1,%"\n",
+        	Comment,"\n"
+        	],Algorithm2),
+
+                		%string_concat(Algorithm3a,"(",Algorithm3d),
+        %interpretstatementlp2p2b(Arguments2,Algorithm3d,Algorithm2a),
+        %write_full_stop_if_last_item([],Algorithm9,Algorithm2),
+        !.
+
+
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2],
                 interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
@@ -158,6 +182,24 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
         	%string_concat(Algorithm8,"))",Algorithm9),
         	foldr(string_concat,[Algorithm1,"findall(",Algorithm4,",",Algorithm6,",",Algorithm8,")"],Algorithm9),
 	write_comma_if_not_empty_list(Statements3,Algorithm9,Algorithm10),
+        interpretbodylp2p(Statements3,Algorithm10,Algorithm2),
+        				%%write_full_stop_if_last_item(Statements3,Algorithm11,Algorithm2),
+        !.
+
+interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
+        Body=[[[n,comment],[Comment]]|Statements3],
+        	%string_concat(Algorithm1,"(",Algorithm3),
+        %interpretstatementlp2p1([Statements1],"",Algorithm4),
+        	%string_concat(Algorithm4,"->(",Algorithm5),
+                %interpretbodylp2p([Statements2],"",Algorithm6),
+        	%string_concat(Algorithm6,");(",Algorithm7),
+                %interpretstatementlp2p1([Statements2a],"",Algorithm8),
+        	%string_concat(Algorithm8,"))",Algorithm9),
+        	foldr(string_concat,[Algorithm1,%"\n","/*",
+        	Comment%,"*/"
+        	,"\n"
+        	],Algorithm10),
+	%write_comma_if_not_empty_list(Statements3,Algorithm9,Algorithm10),
         interpretbodylp2p(Statements3,Algorithm10,Algorithm2),
         				%%write_full_stop_if_last_item(Statements3,Algorithm11,Algorithm2),
         !.
