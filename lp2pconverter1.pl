@@ -20,6 +20,32 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 	%interpretbodylp2p(Body,Algorithm3,Algorithm2a),
 	      write_full_stop_if_last_item([],Algorithm3a,Algorithm2),
 !.
+
+memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
+%trace,
+        Functions2=[Symbol,Function,[Arguments2,"/",Arguments3]],
+        interpretstatementlp2p2a(Function,"",Algorithm3a),
+        	%string_concat(Algorithm3a,"(",Algorithm3d),
+        %interpretstatementlp2p2(Arguments2,"",Algorithm3e),
+        %interpretstatementlp2p2(Arguments3,"",Algorithm3f),
+        	%string_concat(Algorithm3e,")",Algorithm3f),
+                	concat_list([Algorithm1,Symbol,Algorithm3a," ",Arguments2,"/",Arguments3],Algorithm3),
+	%interpretbodylp2p(Body,Algorithm3,Algorithm2a),
+	      write_full_stop_if_last_item([],Algorithm3,Algorithm2),
+!.
+
+memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
+        Functions2=[Symbol,Function,Arguments2],
+        interpretstatementlp2p2a(Function,"",Algorithm3a),
+        	%string_concat(Algorithm3a,"(",Algorithm3d),
+        interpretstatementlp2p2(Arguments2,"",Algorithm3e),
+        %interpretstatementlp2p2(Arguments3,"",Algorithm3f),
+        	%string_concat(Algorithm3e,")",Algorithm3f),
+                	concat_list([Algorithm1,Symbol,Algorithm3a,"(",Algorithm3e,")"],Algorithm3),
+	%interpretbodylp2p(Body,Algorithm3,Algorithm2a),
+	      write_full_stop_if_last_item([],Algorithm3,Algorithm2),
+!.
+
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2,Symbol,Body],
         interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
