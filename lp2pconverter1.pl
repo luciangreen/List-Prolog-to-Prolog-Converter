@@ -4,6 +4,9 @@ lp2p1(Algorithm1,Algorithm2) :-
 	memberlp2p10(Algorithm1,"",Algorithm2).
 		%%string_concat(Algorithm3,"]",Algorithm2).
 
+symbol_lp2p(":-").
+symbol_lp2p("->").
+        
 memberlp2p10([],Algorithm1,Algorithm1) :- !.
 memberlp2p10(Functions2,Algorithm1,Algorithm2) :-
 	Functions2=[Functions3|Functions4],
@@ -24,6 +27,7 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 %trace,
         Functions2=[Symbol,Function,[Arguments2,"/",Arguments3]],
+        symbol_lp2p(Symbol),
         interpretstatementlp2p2a(Function,"",Algorithm3a),
         	%string_concat(Algorithm3a,"(",Algorithm3d),
         %interpretstatementlp2p2(Arguments2,"",Algorithm3e),
@@ -37,6 +41,7 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Symbol,Function,Arguments2],
         interpretstatementlp2p2a(Function,"",Algorithm3a),
+                symbol_lp2p(Symbol),
         	%string_concat(Algorithm3a,"(",Algorithm3d),
         interpretstatementlp2p2(Arguments2,"",Algorithm3e),
         %interpretstatementlp2p2(Arguments3,"",Algorithm3f),
@@ -48,6 +53,7 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2,Symbol,Body],
+                symbol_lp2p(Symbol),
         interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a),
         	string_concat(Algorithm3a,"(",Algorithm3d),
         interpretstatementlp2p2(Arguments2,Algorithm3d,Algorithm3e),
@@ -61,6 +67,7 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 		
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Symbol,Body],
+                symbol_lp2p(Symbol),
         interpretstatementlp2p2a(Function,Algorithm1,Algorithm3b),
                 	concat_list([Algorithm3b,Symbol],Algorithm3a),
 		%%string_concat(Algorithm3a,"(",Algorithm3d),
@@ -159,6 +166,19 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
         Body=[[[n,"->"],[Statements1,Statements2]]|Statements3],
+        Statements2=[[n,_]|_],
+        	string_concat(Algorithm1,"(",Algorithm3),
+        interpretbodylp2p([Statements1],Algorithm3,Algorithm4),
+        	string_concat(Algorithm4,"->",Algorithm5),
+                interpretbodylp2p([Statements2],Algorithm5,Algorithm6),
+        	string_concat(Algorithm6,")",Algorithm7),
+	write_comma_if_not_empty_list(Statements3,Algorithm7,Algorithm8),
+        interpretbodylp2p(Statements3,Algorithm8,Algorithm2),
+        				%%write_full_stop_if_last_item(Statements3,Algorithm9,Algorithm2),
+        !.
+
+interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
+        Body=[[[n,"->"],[Statements1,Statements2]]|Statements3],
         	string_concat(Algorithm1,"(",Algorithm3),
         interpretbodylp2p([Statements1],Algorithm3,Algorithm4),
         	string_concat(Algorithm4,"->(",Algorithm5),
@@ -173,15 +193,33 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
         Body=[[[n,"->"],[Statements1,Statements2,Statements2a]]|Statements3],
         	string_concat(Algorithm1,"(",Algorithm3),
         interpretbodylp2p([Statements1],Algorithm3,Algorithm4),
+        
+        (Statements2=[[n,_]|_]->(
+        	string_concat(Algorithm4,"->",Algorithm5),
+                interpretbodylp2p([Statements2],Algorithm5,Algorithm6),
+        	string_concat(Algorithm6,";",Alg7)
+        	);
+        	(
         	string_concat(Algorithm4,"->(",Algorithm5),
                 interpretbodylp2p([Statements2],Algorithm5,Algorithm6),
-        	string_concat(Algorithm6,");(",Algorithm7),
+        	string_concat(Algorithm6,");",Alg7)
+        	)),
+
+        (Statements2a=[[n,_]|_]->(
+        	
+        	string_concat(Alg7,"",Algorithm7),
                 interpretbodylp2p([Statements2a],Algorithm7,Algorithm8),
-        	string_concat(Algorithm8,"))",Algorithm9),
+        	string_concat(Algorithm8,")",Algorithm9));
+        	
+        	(string_concat(Alg7,"(",Algorithm7),
+                interpretbodylp2p([Statements2a],Algorithm7,Algorithm8),
+        	string_concat(Algorithm8,"))",Algorithm9))),
+        	
 	write_comma_if_not_empty_list(Statements3,Algorithm9,Algorithm10),
         interpretbodylp2p(Statements3,Algorithm10,Algorithm2),
         				%%write_full_stop_if_last_item(Statements3,Algorithm11,Algorithm2),
         !.
+
 
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 %trace,
@@ -362,9 +400,33 @@ interpretstatementlp2p5(A,B1,B,Top):-
 
 interpretstatementlp2p5(Single_item1,_,Single_item,_) :-
  single_item_not_var(Single_item1),
- term_to_atom(Single_item1,Single_item),!.
+ %trace,
+ %(atom(Single_item1)->Single_item1=Single_item;
+ %(flatten(["\"",Single_item1,"\""],Single_item2),
+ %foldr(string_concat,Single_item2,Single_item))),
+ %(Single_item1=""""->trace;true),
+ (((atom(Single_item1)->true;string(Single_item1))),
+ contains_string2(Single_item1,_))->
+ (atomic_list_concat(A,'"',Single_item1),
+ atomic_list_concat(A,'"""',Single_item));
+ term_to_atom(Single_item1,Single_item)),
+ %atom_string(Single_item,Single_item2),
+ %string_atom2(Single_item,Single_item2),
+ %atomic_list_concat(A,"\"\"",Single_item2),
+ %atomic_list_concat(A,"\"",Single_item), 
+ !.
 
-
+contains_string2(Atom,_String) :-
+	string_strings(Atom,S),
+	member("\"",S).
+/*
+	string_concat(A,B,Atom),
+	string_length(A,1),
+	A="\"",
+	string_concat(String,C,B),
+	string_length(C,1),
+	C="\"",!.
+*/
 interpretstatementlp2p5(A,B1,B,Top):-
  A=[A1|A2],
  (A1=[v,N]->(string_concat(A4,B4,N),atom_length(A4,1),upcase_atom(A4,A11),string_concat(A11,B4,A3));
