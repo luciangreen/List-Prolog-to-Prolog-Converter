@@ -96,6 +96,10 @@ quote_next->lookahead("\"").
 lookahead(A,A,B):-stringconcat(B,D,A).
 ```
 
+# Tests
+
+* Run `bt-p2lp_test(A,B)` or `bt-p2lp_test1(N,B)` where N is the test number from <a href="https://github.com/luciangreen/Prolog-to-List-Prolog/blob/master/p2lpverify.pl">Prolog to List Prolog/p2lpverify.pl</a>.
+  
 # Authors
 
 Lucian Green - Initial programmer - <a href="https://www.lucianacademy.com/">Lucian Academy</a>
