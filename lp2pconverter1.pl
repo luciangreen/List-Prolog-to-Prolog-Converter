@@ -400,22 +400,25 @@ interpretstatementlp2p5(A,B1,B,Top):-
 
 interpretstatementlp2p5(Single_item1,_,Single_item,_) :-
  single_item_not_var(Single_item1),
+ %term_to_atom(Single_item1,Single_item),!.
+
  %trace,
  %(atom(Single_item1)->Single_item1=Single_item;
  %(flatten(["\"",Single_item1,"\""],Single_item2),
  %foldr(string_concat,Single_item2,Single_item))),
  %(Single_item1=""""->trace;true),
- (((atom(Single_item1)->true;string(Single_item1))),
- contains_string2(Single_item1,_))->
- (atomic_list_concat(A,'"',Single_item1),
- atomic_list_concat(A,'"""',Single_item));
+ ((((atom(Single_item1)->true;string(Single_item1))),
+ contains_string2(Single_item1,_S))->
+ (atomic_list_concat(A,"\"",Single_item1),
+ atomic_list_concat(A,'"',Single_item2),
+ foldr(string_concat,["\"",Single_item2,"\""],Single_item));
  term_to_atom(Single_item1,Single_item)),
  %atom_string(Single_item,Single_item2),
  %string_atom2(Single_item,Single_item2),
  %atomic_list_concat(A,"\"\"",Single_item2),
  %atomic_list_concat(A,"\"",Single_item), 
  !.
-
+%*/
 contains_string2(Atom,_String) :-
 	string_strings(Atom,S),
 	member("\"",S).
