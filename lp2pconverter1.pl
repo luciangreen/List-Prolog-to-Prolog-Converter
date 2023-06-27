@@ -398,6 +398,7 @@ interpretstatementlp2p5(A,B1,B,Top):-
  foldr(string_concat,[B1,"[]"],B);
  B="[]"),!.
 
+% " \"" -> \" \\\"\"
 interpretstatementlp2p5(Single_item1,_,Single_item,_) :-
  single_item_not_var(Single_item1),
  %term_to_atom(Single_item1,Single_item),!.
@@ -408,9 +409,10 @@ interpretstatementlp2p5(Single_item1,_,Single_item,_) :-
  %foldr(string_concat,Single_item2,Single_item))),
  %(Single_item1=""""->trace;true),
  ((((atom(Single_item1)->true;string(Single_item1))),
- contains_string2(Single_item1,_S))->
+ contains_string2(Single_item1,_S)
+ )->
  (atomic_list_concat(A,"\"",Single_item1),
- atomic_list_concat(A,'"',Single_item2),
+ atomic_list_concat(A,"\\\"",Single_item2),
  foldr(string_concat,["\"",Single_item2,"\""],Single_item));
  term_to_atom(Single_item1,Single_item)),
  %atom_string(Single_item,Single_item2),
