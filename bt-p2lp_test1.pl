@@ -5,7 +5,7 @@
 % B - output: total correct results
 
 % bt-p2lp_test1(N,B).
-% A - input: number to test
+% N - input: number to test
 % B - output: result
 
 bt-p2lp_test(BL,RL) :-
