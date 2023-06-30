@@ -191,13 +191,14 @@ interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
 %trace,    
         Body=[[Function,[Arguments2a,Arguments2b,Arguments2c]]|Statements2],
-        Function=[n,+],
+        Function=[n,F],
+        (F= (+)->true; (F= (-)->true; (F= (*)->true; F= (/)))),
             %interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a,"[]"),
  %               		string_concat(Algorithm3a,"(",Algorithm3d),
 	interpretstatementlp2p2a(Arguments2a,"",Algorithm2a1,"[]"),
 	interpretstatementlp2p2a(Arguments2b,"",Algorithm2b1,"[]"),
 	interpretstatementlp2p2a(Arguments2c,"",Algorithm2c1,"[]"),
-        foldr(string_concat,[Algorithm1,Algorithm2c1," is ",Algorithm2a1,"+",Algorithm2b1],Algorithm2d),
+        foldr(string_concat,[Algorithm1,Algorithm2c1," is ",Algorithm2a1,F,Algorithm2b1],Algorithm2d),
 	write_comma_if_not_empty_list(Statements2,Algorithm2d,Algorithm2e),
         interpretbodylp2p(Statements2,Algorithm2e,Algorithm2),!.
 
