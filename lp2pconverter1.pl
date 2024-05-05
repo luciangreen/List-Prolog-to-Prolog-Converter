@@ -10,8 +10,10 @@ symbol_lp2p("->","-->").
 memberlp2p10([],Algorithm1,Algorithm1) :- !.
 memberlp2p10(Functions2,Algorithm1,Algorithm2) :-
 	Functions2=[Functions3|Functions4],
-	memberlp2p1(Functions3,Algorithm1,Algorithm3),
-	memberlp2p10(Functions4,Algorithm3,Algorithm2).
+	memberlp2p1(Functions3,"",Algorithm3),
+	writeln(Algorithm3),
+	string_concat(Algorithm1,Algorithm3,Algorithm31),
+	memberlp2p10(Functions4,Algorithm31,Algorithm2).
 
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function],
@@ -43,6 +45,22 @@ trace,
 !.
 */
 
+/*
+memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
+%trace,
+        Functions2=[A=B],
+        (string(A)->true;(atom(A)->true;(number(A)))),
+        (string(B)->true;(atom(B)->true;(number(B)))),
+        %interpretstatementlp2p2a(Function,"",Algorithm3a,"[]"),
+        	%string_concat(Algorithm3a,"(",Algorithm3d),
+        %interpretstatementlp2p2(Arguments2,"",Algorithm3e),
+        %interpretstatementlp2p2(Arguments3,"",Algorithm3f),
+        	%string_concat(Algorithm3e,")",Algorithm3f),
+                	concat_list([A,"=",B],Algorithm3),
+	%interpretbodylp2p(Body,Algorithm3,Algorithm2a),
+	      write_full_stop_if_last_item([],Algorithm3,Algorithm2),
+!.
+*/
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 %trace,
         Functions2=[Symbol1,Function,[Arguments2,"/",Arguments3]],
@@ -129,7 +147,14 @@ foldr(string_concat,[Algorithm3d,"library(",A,"))"],Algorithm2a);
         write_full_stop_if_last_item([],Algorithm2a,Algorithm2),!.
 
 
-
+/*
+memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
+        forall(member(A,Functions2),A=[_=_]),
+                %interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a,"[]"),
+%                		string_concat(Algorithm3a,"(",Algorithm3d),
+        interpretstatementlp2p2b(Functions2,Algorithm1,Algorithm2a,"[]"),
+        write_full_stop_if_last_item([],Algorithm2a,Algorithm2),!.
+*/
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2],
                 interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a,"[]"),
@@ -484,6 +509,17 @@ interpretstatementlp2p5([],_,"()","()") :- !.
 
 
 interpretstatementlp2p5([v,Name1],_,Name2,_Brackets) :- string_concat(A,B,Name1),atom_length(A,1),upcase_atom(A,A1),string_concat(A1,B,Name2),!.
+
+interpretstatementlp2p5(C,_,Name2,_Brackets) :-
+is_list(C),
+forall(member(A,C),A=(_=_)),
+findall(C1,
+(member(A=B,C),(string(A)->true;(atom(A)->true;(number(A)))),
+(string(B)->true;(atom(B)->true;(number(B)))),
+C1=(A=B)%concat_list([A,"=",B],C1)
+),Name21),term_to_atom(Name21,Name2),
+%string_concat(A1,B,Name2),
+!.
 
 interpretstatementlp2p5(A,B1,B,Brackets):-
  (Brackets="[]"->Top=true;Top=false),
