@@ -1,17 +1,21 @@
+%:-dynamic pred_type/1.
 
 lp2p1(Algorithm1,Algorithm2) :-
+	%retractall(pred_type(_)),
 	%% note: without type, mode statements
 	memberlp2p10(Algorithm1,"",Algorithm2).
 		%%string_concat(Algorithm3,"]",Algorithm2).
 
-symbol_lp2p(":-",":-").
+symbol_lp2p(":-",":-").%:-
+%retractall(pred_type(_)),
+%assertz(pred_type(":-"))
 symbol_lp2p("->","-->").
         
 memberlp2p10([],Algorithm1,Algorithm1) :- !.
 memberlp2p10(Functions2,Algorithm1,Algorithm2) :-
 	Functions2=[Functions3|Functions4],
 	memberlp2p1(Functions3,"",Algorithm3),
-	writeln(Algorithm3),
+	%writeln(Algorithm3),
 	string_concat(Algorithm1,Algorithm3,Algorithm31),
 	memberlp2p10(Functions4,Algorithm31,Algorithm2).
 
@@ -91,9 +95,10 @@ memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
 memberlp2p1(Functions2,Algorithm1,Algorithm2) :-
         Functions2=[Function,Arguments2,Symbol1,Body],
         symbol_lp2p(Symbol1,Symbol2),
+        (Symbol1="->"->S="()";S="[]"),
         interpretstatementlp2p2a(Function,Algorithm1,Algorithm3a,"[]"),
         	string_concat(Algorithm3a,"(",Algorithm3d),
-        interpretstatementlp2p2(Arguments2,Algorithm3d,Algorithm3e,"[]"),
+        interpretstatementlp2p2(Arguments2,Algorithm3d,Algorithm3e,S),
         	string_concat(Algorithm3e,")",Algorithm3f),
                 	concat_list([Algorithm3f,Symbol2],Algorithm3),
 	interpretbodylp2p(Body,Algorithm3,Algorithm2a),
@@ -190,12 +195,14 @@ interpretbodylp2p(Statements,Algorithm4,Algorithm2),
 !.
 interpretbodylp2p(Body,Algorithm1,Algorithm2) :-
         Body=[[Statements1|Statements1a]|Statements2],
+        %trace,
+        (only_item(Statements1)->(S1="[",S2="]");(S1="(",S2=")")),
 		not(predicate_or_rule_name(Statements1)),
-	string_concat(Algorithm1,"(",Algorithm3),
+	string_concat(Algorithm1,S1,Algorithm3),
 	interpretbodylp2p([Statements1],Algorithm3,Algorithm4),
 	write_comma_if_not_empty_list(Statements1a,Algorithm4,Algorithm5),
 	interpretbodylp2p(Statements1a,Algorithm5,Algorithm6),
-		string_concat(Algorithm6,")",Algorithm6a),
+		string_concat(Algorithm6,S2,Algorithm6a),
 			write_comma_and_newline_if_not_empty_list(Statements2,Algorithm6a,Algorithm7),
 	interpretbodylp2p(Statements2,Algorithm7,Algorithm2),
 				%%write_full_stop_if_last_item(Statements2,Algorithm8,Algorithm2),
@@ -528,7 +535,7 @@ interpretstatementlp2p5(A,B1,B,Brackets):-
 
 interpretstatementlp2p5([n,Name],_,Name,_,_Brackets) :- !.
 
-interpretstatementlp2p5([A,"|",B],_,C,Top,Brackets) :- 
+interpretstatementlp2p5([A,"|",B],_,C,_Top,Brackets) :- 
 %trace,
  (Brackets="[]"->(LB="[",RB="]");(LB="(",RB=")")),
  %interpretstatementlp2p5(A,_,A1,Brackets),
