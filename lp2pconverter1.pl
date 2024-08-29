@@ -3,7 +3,7 @@
 lp2p1(Algorithm1,Algorithm2) :-
 	%retractall(pred_type(_)),
 	%% note: without type, mode statements
-	memberlp2p10(Algorithm1,"",Algorithm2).
+	memberlp2p10(Algorithm1,"",Algorithm2),!.
 		%%string_concat(Algorithm3,"]",Algorithm2).
 
 symbol_lp2p(":-",":-").%:-
