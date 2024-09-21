@@ -1,5 +1,7 @@
 %:-dynamic pred_type/1.
 
+:-include('bt-p2lp_test1.pl').
+
 lp2p1(Algorithm1,Algorithm2) :-
 	%retractall(pred_type(_)),
 	%% note: without type, mode statements
